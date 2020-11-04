@@ -1,8 +1,14 @@
 import Head from 'next/head'
+
 import styles from '../styles/Home.module.css'
+
+import { observer } from "mobx-react"
+
 import { request, gql } from 'graphql-request'
 import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
+
+import launchesModel from '../models/launchesPasts'
 
 const query = `
 {
@@ -37,13 +43,18 @@ const query = `
   }  
 `
 
-export default function Index() {
+const Index = () => {
 
   const [count, setCount] = useState(0);
   const [launches, setLaunches] = useState([]);
 
+  const missions = launchesModel.create();
+
   useEffect(() => {
-    request('http://localhost:4000/', query).then((data) => setLaunches(data.launchesPast));
+    request('http://localhost:4000/', query).then((data) => {
+      missions.setData(data.launchesPast);
+      setLaunches(missions.showAll());
+    });
   }, []);
 
   return (
@@ -109,8 +120,10 @@ function ImageList(props) {
   const { ships } = props;
 
   return <div className={styles.image_container}>{
-    ships && ships.map((i) => {
-      return <img src={i.image} className={styles.ship_image}></img>
+    ships && ships.map((i, index) => {
+      return <img src={i.image} className={styles.ship_image} key={index}></img>
     })
   }</div>
 }
+
+export default observer(Index)
