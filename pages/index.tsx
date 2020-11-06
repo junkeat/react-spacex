@@ -1,14 +1,19 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
+//Styles
 import styles from '../styles/Home.module.css'
 
+//Mobx
 import { observer } from "mobx-react"
+import launchesModel from '../models/launchesPasts'
 
-import { request, gql } from 'graphql-request'
+import { request } from 'graphql-request'
 import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 
-import launchesModel from '../models/launchesPasts'
+//Components
+import ImageList from '../components/ImageList'
 
 const query = `
 {
@@ -94,6 +99,15 @@ const Index = () => {
 
           <ImageList ships={launches[count]?.ships}></ImageList>
 
+          <Link
+            href={{
+              pathname: "/post",
+              query: { id: count }
+            }}
+          >
+            <a>More Info</a>
+          </Link>
+
           <div className={styles.button_container}>
             <Button variant="outline-primary" onClick={() => {
               if (count > 0) {
@@ -114,16 +128,6 @@ const Index = () => {
       </div>
     </div>
   );
-}
-
-function ImageList(props) {
-  const { ships } = props;
-
-  return <div className={styles.image_container}>{
-    ships && ships.map((i, index) => {
-      return <img src={i.image} className={styles.ship_image} key={index}></img>
-    })
-  }</div>
 }
 
 export default observer(Index)
