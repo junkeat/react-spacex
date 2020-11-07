@@ -149,9 +149,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
 }
 
-.search_container > input{
+.search_container input{
   width: 300px;
   border-radius: 5px;
 }
