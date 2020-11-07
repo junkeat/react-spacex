@@ -12,13 +12,13 @@ import styles from '../styles/Home.module.css'
 import { observer } from 'mobx-react'
 import launchesModel from '../models/launchesPasts'
 
-import { request } from 'graphql-request'
 import { Button } from 'react-bootstrap'
 
 //Components
 import ImageList from '../components/ImageList'
 
 //GraphQL
+import { request } from 'graphql-request'
 import { query, getSearchQuery } from '../graphql/queries'
 
 const Index = () => {

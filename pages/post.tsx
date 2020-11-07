@@ -1,13 +1,18 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Link from 'next/link'
 
-import styles from '../styles/Home.module.css';
-import { request } from 'graphql-request';
-import { useEffect, useState } from 'react';
+//React
+import React from 'react'
+import { useEffect, useState } from 'react'
+
+//Styles
+import styles from '../styles/Home.module.css'
 
 //Components
 import ImageList from '../components/ImageList'
 
+//GraphQL
+import { request } from 'graphql-request'
 import { getSearchQuery } from '../graphql/queries'
 
 function Post() {
