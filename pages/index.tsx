@@ -27,12 +27,12 @@ const Index = () => {
   const [launches, setLaunches] = useState([]);
   const [update, setUpdate] = useState(0);
 
-  const missions = launchesModel.create();
+  //const missions = launchesModel.create();
 
   useEffect(() => {
     request('https://api.spacex.land/graphql/', query).then((data) => {
       setLaunches(data.launchesPast);
-      missions.setData(data.launchesPast);
+      //missions.setData(data.launchesPast);
     });
   }, []);
 

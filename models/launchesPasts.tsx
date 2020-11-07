@@ -43,6 +43,12 @@ export interface Ship {
   image: string;
 }
 
+const ships = types.model({
+  name: types.string,
+  home_port: types.string,
+  image: types.maybeNull(types.string),
+})
+
 const missionDetail = types.model({
   mission_name: types.string,
   launch_date_local: types.string,
@@ -61,18 +67,14 @@ const missionDetail = types.model({
           flight: types.number,
           core: types.model({
             reuse_count: types.number,
-            status: types.string
+            status: types.maybeNull(types.string)
           })
         })
       )
     })
   }),
-  ships: types.array(
-    types.model({
-      name: types.string,
-      home_port: types.string,
-      image: types.string
-    })
+  ships: types.maybeNull(
+    types.array(ships)
   )
 });
 
