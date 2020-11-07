@@ -87,7 +87,7 @@
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 1px solid #cacaca;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   min-width: 800px;
@@ -140,4 +140,18 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.search_container {
+  padding: 20px;
+  width: 100%;
+  background-color:#222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search_container > input{
+  width: 300px;
+  border-radius: 5px;
 }

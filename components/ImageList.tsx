@@ -5,7 +5,11 @@ function ImageList(props) {
 
     return <div className={styles.image_container}>{
         ships && ships.map((i, index) => {
-            return <img src={i.image} className={styles.ship_image} key={index}></img>
+            if (i) {
+                return <img src={i.image} className={styles.ship_image} key={index}></img>
+            } else {
+                return <></>
+            }
         })
     }</div>
 }

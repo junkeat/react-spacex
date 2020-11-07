@@ -1,6 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
+//React
+import React from 'react'
+import { useEffect, useState } from 'react'
+
 //Styles
 import styles from '../styles/Home.module.css'
 
@@ -9,44 +13,13 @@ import { observer } from "mobx-react"
 import launchesModel from '../models/launchesPasts'
 
 import { request } from 'graphql-request'
-import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 
 //Components
 import ImageList from '../components/ImageList'
 
-const query = `
-{
-    launchesPast {
-      mission_name
-      launch_date_local
-      launch_site {
-        site_name_long
-      }
-      links {
-        article_link
-        video_link
-      }
-      rocket {
-        rocket_name
-        first_stage {
-          cores {
-            flight
-            core {
-              reuse_count
-              status
-            }
-          }
-        }
-      }
-      ships {
-        name
-        home_port
-        image
-      }
-    }
-  }  
-`
+//GraphQL
+import { query, getSearchQuery } from '../graphql/queries'
 
 const Index = () => {
 
@@ -56,9 +29,8 @@ const Index = () => {
   const missions = launchesModel.create();
 
   useEffect(() => {
-    request('http://localhost:4000/', query).then((data) => {
-      missions.setData(data.launchesPast);
-      setLaunches(missions.showAll());
+    request('https://api.spacex.land/graphql/', query).then((data) => {
+      setLaunches(data.launchesPast);
     });
   }, []);
 
@@ -68,6 +40,15 @@ const Index = () => {
         <title>SpaceX Launches</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div className={styles.search_container}>
+        <input type="text" placeholder="Enter name to search" onChange={(e) => {
+          const searchQuery = getSearchQuery(e.target.value)
+          request('https://api.spacex.land/graphql/', searchQuery).then((data) => {
+            setLaunches(data.launchesPast);
+          });
+        }}/>
+      </div>
 
       <div className={styles.container}>
         <h1>SpaceX Launches</h1>
@@ -102,7 +83,7 @@ const Index = () => {
           <Link
             href={{
               pathname: "/post",
-              query: { id: count }
+              query: { name: launches[count]?.mission_name }
             }}
           >
             <a>More Info</a>
