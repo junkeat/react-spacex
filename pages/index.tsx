@@ -9,14 +9,14 @@ import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
 //Mobx
-import { observer } from "mobx-react"
+import { observer } from 'mobx-react'
+import launchesModel from '../models/launchesPasts'
 
 import { request } from 'graphql-request'
 import { Button } from 'react-bootstrap'
 
 //Components
 import ImageList from '../components/ImageList'
-import CreateModal from '../components/CreateModal'
 
 //GraphQL
 import { query, getSearchQuery } from '../graphql/queries'
@@ -27,11 +27,12 @@ const Index = () => {
   const [launches, setLaunches] = useState([]);
   const [update, setUpdate] = useState(0);
 
-  // const missions = launchesModel.create();
+  const missions = launchesModel.create();
 
   useEffect(() => {
     request('https://api.spacex.land/graphql/', query).then((data) => {
       setLaunches(data.launchesPast);
+      missions.setData(data.launchesPast);
     });
   }, []);
 
@@ -95,7 +96,6 @@ const Index = () => {
           </Link>
 
           <div className={styles.button_container}>
-            <CreateModal></CreateModal>
 
             <Button variant="danger" onClick={() => {
               const index = launches.indexOf(launches[count])
